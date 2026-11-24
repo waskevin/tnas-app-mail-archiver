@@ -1,0 +1,12 @@
+{
+  "name": "mail-archiver",
+  "source": "https://github.com/s1t5/mail-archiver",
+  "docker_image": "leplusorg/mail:sha-4061b9f",
+  "version": "sha-4061b9f",
+  "repository": "https://github.com/waskevin/tnas-app-mail-archiver",
+  "architectures": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "submission_status": "not_submitted"
+}
