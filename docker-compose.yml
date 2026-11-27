@@ -1,6 +1,32 @@
 services:
   mail-archiver:
-    image: leplusorg/mail:sha-4061b9f
-    restart: unless-stopped
+    image: s1t5/mailarchiver:latest
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
     environment:
       TZ: Asia/Shanghai
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=MailArchiver;Username=mailuser;Password=${POSTGRES_PASSWORD:-change_me_db_password};
+      Authentication__Username: ${AUTH_USERNAME:-admin}
+      Authentication__Password: ${AUTH_PASSWORD:-change_me_admin_password}
+      OAuth__Enabled: "false"
+    volumes:
+      - ./data-protection-keys:/app/DataProtection-Keys
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: MailArchiver
+      POSTGRES_USER: mailuser
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_db_password}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mailuser -d MailArchiver"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

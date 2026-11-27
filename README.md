@@ -5,16 +5,19 @@
 ## 应用信息
 
 - 上游项目：https://github.com/s1t5/mail-archiver
-- Docker 镜像：`leplusorg/mail:sha-4061b9f`
+- Docker 镜像：`s1t5/mailarchiver:latest`
 - 架构：linux/amd64、linux/arm64（已通过 Docker Hub 多架构标签核验）
 
 ## 运行示例
 
 ```bash
-docker run -d --name mail-archiver --restart unless-stopped -e TZ=Asia/Shanghai leplusorg/mail:sha-4061b9f
+docker compose up -d
 ```
 
-请按上游文档配置持久化目录和端口；仓库不包含密码、令牌或私钥。
+编排包含 PostgreSQL 依赖和数据保护密钥目录；请先复制 `.env.example` 并设置管理员与数据库密码。仓库不包含真实凭证。
+
+- x86_64 预检截图：`precheck-screenshots/mail-archiver/x86_64/reprecheck.png`
+- NAS x86_64 实测：HTTP 200，显示 Mail Archiver 登录页。
 
 ## 状态
 
